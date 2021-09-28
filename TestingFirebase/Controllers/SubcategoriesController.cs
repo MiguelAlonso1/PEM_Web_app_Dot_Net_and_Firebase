@@ -46,7 +46,17 @@ namespace TestingFirebase.Controllers
                 Console.WriteLine($"Evaluation is {subCategory.Object.Evaluation}");
                 Console.WriteLine();
             }
-            @ViewBag.subCatList = 0;
+            
+          //  @ViewBag.subCatList = 0;
+            @ViewBag.MainCategoryName = id switch
+            {
+                "c1" => "Medical",
+                "c2" => "Surgical",
+                "c3" => "Trauma",
+                "c4" => "Toxicology",
+                "c5" => "Foreign Ingestion",
+                _ => "Medical",//default case
+            };
             return View(subCategoryList);
         }
 
@@ -83,6 +93,16 @@ namespace TestingFirebase.Controllers
              };
           
             @ViewBag.subCatList = 0;
+
+            @ViewBag.MainCategoryName = firebaseObj.Object.SubId switch
+            {
+                "c1" => "Medical",
+                "c2" => "Surgical",
+                "c3" => "Trauma",
+                "c4" => "Toxicology",
+                "c5" => "Foreign Ingestion",
+                _ => "Medical",//default case
+            };
             return View(obj);
         }
 
@@ -94,7 +114,15 @@ namespace TestingFirebase.Controllers
             IEnumerable<SelectListItem> mainKategoryNameValues =
                 mainKatArray.Select(x => new SelectListItem
                 {
-                    Text = x,
+                    Text = x switch
+                    {
+                        "c1" => "Medical",
+                        "c2" => "Surgical",
+                        "c3" => "Trauma",
+                        "c4" => "Toxicology",
+                        "c5" => "Foreign Ingestion",
+                        _ => "Medical",//default case
+                    },
                     Value = x
                 });
 
@@ -174,7 +202,15 @@ namespace TestingFirebase.Controllers
             IEnumerable<SelectListItem> mainKategoryNameValues =
                 mainKatArray.Select(x => new SelectListItem
                 {
-                    Text = x,
+                    Text = x switch
+                    {
+                        "c1" => "Medical",
+                        "c2" => "Surgical",
+                        "c3" => "Trauma",
+                        "c4" => "Toxicology",
+                        "c5" => "Foreign Ingestion",
+                        _ => "Medical",//default case
+                    },
                     Value = x
                 });
 
@@ -301,9 +337,9 @@ namespace TestingFirebase.Controllers
 
         #region :::POST Delete:::
         #endregion
-       //[HttpPost]
-       // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(string id)//obj comes form the HTML form
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id)//obj comes form the HTML form
         {
             if (id == null)
             {

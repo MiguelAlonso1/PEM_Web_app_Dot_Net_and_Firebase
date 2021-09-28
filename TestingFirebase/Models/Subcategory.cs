@@ -42,7 +42,8 @@ namespace TestingFirebase.Models
         //for linking to Main Kategory
         [Display(Name = "Main Category ID")]
         [Required(ErrorMessage = "Main Category can't be empty!")]
-        [StringRange(AllowableValues = new[] { "c1", "c2", "c3", "c4", "c5" }, ErrorMessage = "Main Category should be 'c1' thru 'c5'.")]
+        [StringRange(AllowableValues = new[] { "c1", "c2", "c3", "c4", "c5" }, ErrorMessage = "Please select a Main Category.")]
+        //[StringRange(AllowableValues = new[] { "Surgical", "Trauma", "Toxicology", "Foreign Ingestion", "Medical" }, ErrorMessage = "Please select a Main Category.")]
         public string SubId { get; set; }
 
         //[ForeignKey("SubId")]

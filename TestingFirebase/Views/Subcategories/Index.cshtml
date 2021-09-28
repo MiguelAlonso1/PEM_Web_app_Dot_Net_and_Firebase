@@ -14,11 +14,11 @@
     <div class="container p-3">
         <div class="row pt-4">
             <div class="col-6">
-                <h2 class="text-primary">@ViewBag.MainCategoryName SubKategories</h2>
+                <h2 class="text-primary"> <span class="text-info">@ViewBag.MainCategoryName</span>  Subcategories</h2>
             </div>
             <div class="col-6 btn-group text-right" role="group">
-                <a asp-controller="Subcategories" asp-action="Create" class="btn btn-primary mx-1">Create new SubKategory</a>
-                <a asp-controller="Home" asp-action="Index" class="btn btn-dark  mx-1">Back</a>
+                <a asp-controller="Subcategories" asp-action="Create" class="btn btn-primary mx-1">Create new Subcategory</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-dark mx-1">Back</a>
             </div>
         </div>
     </div>
@@ -30,38 +30,41 @@
                     <tr>
                         <th>Image </th>
                         <th>Title </th>
-                        <th>Maincategory ID </th>
+                        @*<th>Maincategory ID </th>*@
                         <th>Links </th>
-                        <th>Update</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var kat in Model)
                     {
-                    <tr>
-                        <td>
-                            <a asp-controller="Subcategories" asp-action="Details" asp-route-id="@kat.Key" class="btn btn-outline-light">
-                                <img class="media-object mx-4" src="\images\img.png" alt="image info" width="128" height="64" style="border: 2px solid #43ac6a; border-radius: 25px ">
-                                <b>ID: @kat.Key</b>
-                            </a>
-                        </td>
-                        <td>
-                            <h4 class="media-heading text-dark"><strong>@kat.Title</strong></h4>
-                        </td>
-                        <td>
-                            <h4 class="media-heading text-dark"><strong>@kat.SubId</strong></h4>
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <div class="pl-2 pb-4 mx-1"><a asp-controller="Subcategories" asp-action="Details" asp-route-id="@kat.Key" class="btn btn-primary">Go to Details</a></div>
+                        <tr>
+                            <td>
+                                <a asp-controller="Subcategories" asp-action="Details" asp-route-id="@kat.Key" class="btn btn-outline-light">
+                                    <img class="media-object mx-4" src="\images\img.png" alt="image info" width="128" height="64" style="border: 2px solid #43ac6a; border-radius: 25px ">
+                                    @*<b>ID: @kat.Key</b>*@
+                                </a>
+                            </td>
+                            <td>
+                                <h4 class="media-heading text-dark"><strong>@kat.Title</strong></h4>
+                            </td>
+                            @*<td>
+                                    <h4 class="media-heading text-dark"><strong>@kat.SubId</strong></h4>
+                                </td>*@
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="Subcategories" asp-action="Details" asp-route-id="@kat.Key" class="btn btn-primary mx-1">Details</a>
 
-                            </div>
-                        </td>
-                        <td>
-                            <div class="pr-2 pb-4 mx-1"><a asp-controller="Categories" asp-action="Delete" asp-route-id="@kat.Key" class="btn btn-danger">Delete</a></div>
-                        </td>
+                                    <a id="delSubCategory" data-toggle="modal"
+                                       data-target="#exampleModal"
+                                       data-id="@kat.Key" data-num="0" data-title="@kat.Title"
+                                       class="btn btn-danger text-white mx-1">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                  
 
-                    </tr>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -71,6 +74,28 @@
             <p>No items created yet</p>
         }
     </div>
+
+    <!-- Modal--  below form works through Jquery. See site.js under wwwroot folder for more info ;)-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="delP"></p>
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteFormClient" method="post">
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 </body>

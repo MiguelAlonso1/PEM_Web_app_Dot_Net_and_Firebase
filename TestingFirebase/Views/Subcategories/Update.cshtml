@@ -83,8 +83,8 @@
                         <span asp-validation-for="References" class="text-danger"></span>
                     </div>
                     <div class="col-6">
-                        <select asp-for="SubId" asp-items="@ViewBag.MainKategoryListOfNames" class="form-control">
-                            <option selected>--select main  category</option>
+                        <select asp-for="SubId" asp-items="@ViewBag.MainKategoryListOfNames" class="form-control" >
+                            @*<option selected>--select main  category</option>*@
                         </select>
                         <span asp-validation-for="SubId" class="text-danger"></span>
                     </div>
