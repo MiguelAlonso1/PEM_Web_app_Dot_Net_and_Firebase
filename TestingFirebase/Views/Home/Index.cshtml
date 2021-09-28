@@ -24,22 +24,22 @@
                     <div class="d-flex justify-content-between ">
                         <div class="pl-2"><a asp-controller="Categories" asp-action="Update" asp-route-id="@kat.Key" class="btn btn-primary">Update</a></div>
                        
-                        @*@{
+                        @{
                             var list = @ViewBag.subCatList;
 
                             int numberOfSubCategories = 0;
                             foreach (var obj in list)
                             {
-                                if (obj.MainCategoryId == kat.Key)
+                                if (obj.Object.SubId.Equals(@kat.Key))
                                 {
                                     numberOfSubCategories++;
                                 }
                             }
-                        }*@
+                        }
 
                         <div class="pr-2 h5">
                         </div>
-                        <div id="numSubCat" class="pr-2 text-danger h5">Number of Subcategories: <b> No Subcategories ATM</b></div>
+                        <div id="numSubCat" class="pr-2 text-danger h5">Number of Subcategories: <b>@numberOfSubCategories</b></div>
                         <div class="pr-2 h5">
                             <a id="delMainCategory" data-bs-toggle="modal"
                                data-bs-target="#exampleModal"

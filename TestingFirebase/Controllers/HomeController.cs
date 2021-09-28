@@ -38,12 +38,12 @@ namespace TestingFirebase.Controllers
             .Child("categories")
             .OrderByKey()
             //.LimitToFirst(2)
-            .OnceAsync<MainCategory>();
+            .OnceAsync<Subcategory>();
 
             var mainCategoriesList = new List<MainCategory>();
 
             var mainKatIds  = new string []{"c1", "c2","c3","c4","c5"};
-
+            var subCategoryCount = new int();
             /// Convert JSON da ta to original datatype, then make a MainCategory and add it to list
 
             //foreach (var mainCategory in dbLogins)
@@ -65,17 +65,28 @@ namespace TestingFirebase.Controllers
                 mainCategoriesList.Add(new MainCategory
                 {
                     Key = val,//use to make asp-route-id for subcategories
-                    Title = val,
+                    //Switch expression, baby!
+                    Title = val switch
+                    {
+                        "c1" => "Medical",
+                        "c2" => "Surgical",
+                        "c3" => "Trauma",
+                        "c4" => "Toxicology",
+                        "c5" => "Foreign Ingestion",
+                        _ => "Medical",//default case
+                    },
                     CategoryDescription = "Insert description",
-                    ImageUrl = @"\images\img.png"//Verbatim string for pic
+                    ImageUrl = @"\images\" + val + ".jpg"//Verbatim string and konkat for pic
                 });
 
-                //Console.WriteLine($"{mainCategory.Key} is");
-                //Console.WriteLine($"Evaluation is {mainCategory.Object.CategoryDescription}");
-                //Console.WriteLine();
+           
+
+                //var subCategoryObj = subCatList;
+                // var subCategoryObj = dbLogins.Where(x => x.Object.SubId.Equals(id));
+                subCategoryCount = dbLogins.Count(x => x.Object.SubId.Equals(val));
             }
 
-            @ViewBag.subCatList = 0;
+            @ViewBag.subCatList = dbLogins;
             return View(mainCategoriesList);
         }
 

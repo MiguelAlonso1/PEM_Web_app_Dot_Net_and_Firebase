@@ -12,6 +12,7 @@ namespace TestingFirebase.Models
     {
         [Key]
         public string Key { get; set; }//primary key. A sequence is created and incremented by default
+       
         [Required(ErrorMessage = "Title can't be empty!")]
         public string Title { get; set; }
 

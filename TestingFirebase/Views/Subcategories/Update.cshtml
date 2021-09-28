@@ -1,14 +1,12 @@
 ﻿@model Subcategory
 <!-- the asp-action Create below refers to teh POST version of the Create controller
  -->
-<form method="post" asp-action="Create">
+<form method="post" asp-action="Update">
+    <input asp-for="Key" hidden />
     <div class="border p-3">
         <div asp-validation-summary="All"></div>
         <div class="form-group row">
-            <h2 class="text-black-50 pl-3">Create new Subcategory</h2>
-        </div>
-        <div class="form-group row">
-            <p class="text-info pl-3">You may create a new Sub Category of any Main Category</p>
+            <h2 class="text-black-50 pl-3">Update <strong>@Model.Title</strong> Subcategory</h2>
         </div>
         <div class="row">
             <div class="col-12">
@@ -17,7 +15,7 @@
                         <label asp-for="Title"></label>
                     </div>
                     <div class="col-6">
-                        @*<label asp-for="ImageUrl"></label>*@ Image feat. not yet implemented
+                        <label @*asp-for="ImageUrl"*@></label>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -26,8 +24,8 @@
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="col-6">
-                        <input @*asp-for="ImageUrl"*@ class="form-control"  disabled/>
-                        @*<span asp-validation-for="ImageUrl" class="text-danger"></span>*@
+                        <input @*asp-for="ImageUrl"*@ class="form-control" disabled />
+                        <span @*asp-validation-for="ImageUrl"*@ class="text-danger"></span>
                     </div>
                 </div>
                 <!-- Evaluation and medications  -->
@@ -92,14 +90,14 @@
                     </div>
                 </div>
 
-                <!-- Create and go back buttons  -->
+                <!-- Update and go back buttons  -->
                 <div class="form-group row">
                     <div class="col-8 mx-auto row">
                         <div class="col">
-                            <input type="submit" class="btn btn-success w-75" value="Create" />
+                            <input type="submit" class="btn btn-success w-75" value="Update" />
                         </div>
                         <div class="col">
-                            <a asp-controller="Home" asp-action="Index" class="btn btn-dark w-75">Back</a>
+                            <a asp-controller="Subcategories" asp-action="Details" asp-route-id="@Model.Key" class="btn btn-dark w-75">Back</a>
                         </div>
                     </div>
                 </div>
@@ -108,9 +106,6 @@
         </div>
     </div>
 </form>
-
-@*below is needed to validate on the front-end
-    otherwise, it'll got to the back-end and try to update being less performance*@
 
 @section Scripts{
     @{
