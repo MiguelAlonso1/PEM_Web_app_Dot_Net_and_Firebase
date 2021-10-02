@@ -36,7 +36,10 @@
                     </a>
                 </div>
             </div>
-            <img src="@ViewBag.picURL" class="card-img-top p-2 rounded" width="500" height="500" sstyle="opacity: 1.0" />
+            @foreach( var str in @ViewBag.picURL)
+            {
+            <img src="@str" class="card-img-top p-2 rounded" width="500" height="500" sstyle="opacity: 1.0" />
+            }
 
             <div class="w-100 btn-group" role="group">
                 <a class="btn  btn-outline-dark" data-toggle="collapse" href="#collapseExample_@Model.Key" role="button" aria-expanded="false" aria-controls="collapseExample">

@@ -81,19 +81,20 @@ namespace TestingFirebase.Controllers
 
             //string imgData;
             /// Convert JSON data to original datatype
-          if (firebaseObj.Key.Equals("-MksA6PnleBIWZBq4EQ0"))
-          {
-
+            //if (firebaseObj.Key.Equals("-MksA6PnleBIWZBq4EQ0"))
+            if (firebaseObj.Object.Image != null)
+            {
+                //below converts JSON array into string array
                 picURL = JsonSerializer.Deserialize<string[]>(Convert.ToString(firebaseObj.Object.Image));
 
                 if (picURL != null)
-                    ViewBag.picURL = picURL[1];
-
+                    ViewBag.picURL = picURL;//viewbag gets reference to the string array
             }
             else
             {
-                ViewBag.picURL = @"\images\img.png";//Verbatim string for pic
+                ViewBag.picURL = new string[] { @"\images\img.png" };//Verbatim string for pic
             }
+
             Subcategory obj = new Subcategory
             {
                 Key = Convert.ToString(firebaseObj.Key),

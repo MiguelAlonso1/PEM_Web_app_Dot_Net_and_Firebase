@@ -38,7 +38,7 @@ namespace TestingFirebase.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Image Link")]
         //[Required(ErrorMessage = "Image Link can't be empty!")]
-        public Object Image { get; set; }
+        public Object Image { get; set; }//this holds a JSON object of type array
 
         //for linking to Main Kategory
         [Display(Name = "Main Category ID")]
