@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,13 +13,13 @@ namespace TestingFirebase.Models
     {
         [Key]
         public string Key { get; set; }//primary key. A sequence is created and incremented by default
-       
+
         [Required(ErrorMessage = "Title can't be empty!")]
         public string Title { get; set; }
 
         //[Required(ErrorMessage = "Color can't be empty!")]
         public string Color { get; set; }
-        
+
         [Required(ErrorMessage = "Evaluation can't be empty!")]
         public string Evaluation { get; set; }
 
@@ -29,15 +30,15 @@ namespace TestingFirebase.Models
         public string Management { get; set; }
 
         [Required(ErrorMessage = "Symptoms can't be empty!")]
-        public string Signs{ get; set; }
+        public string Signs { get; set; }
 
         [Required(ErrorMessage = "References can't be empty!")]
         public string References { get; set; }
 
-        //[DataType(DataType.ImageUrl)]
-        //[Display(Name = "Image Link")]
+        [DataType(DataType.ImageUrl)]
+        [Display(Name = "Image Link")]
         //[Required(ErrorMessage = "Image Link can't be empty!")]
-        //public string ImageUrl { get; set; }
+        public Object Image { get; set; }
 
         //for linking to Main Kategory
         [Display(Name = "Main Category ID")]

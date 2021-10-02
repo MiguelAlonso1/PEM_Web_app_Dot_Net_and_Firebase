@@ -62,7 +62,7 @@
                                     </a>
                                 </div>
                             </td>
-                  
+
 
                         </tr>
                     }
@@ -98,6 +98,20 @@
 
 
 
+    @*<input name="notif" type="button" value="Show notify js" onclick="$('.elem-demo').notify('Hello Box');" />*@
+
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$.notify('Hello World', 'success');">Close</button>
+
+    <div class="elem-demo">a Box</div>
+
+
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </body>
 </html>
 

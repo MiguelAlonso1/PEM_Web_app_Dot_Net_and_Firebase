@@ -2,11 +2,13 @@
 using Firebase.Database.Query;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestingFirebase.Models;
+using Newtonsoft.Json.Linq;
 
 namespace TestingFirebase.Controllers
 {
@@ -75,22 +77,37 @@ namespace TestingFirebase.Controllers
             .OnceAsync<Subcategory>();
 
             var firebaseObj = subCatList.FirstOrDefault(x => x.Key.Equals( id) );
+            string [] picURL;
 
+            //string imgData;
             /// Convert JSON data to original datatype
-          
-             Subcategory obj = new Subcategory
-                {
-                    Key = Convert.ToString(firebaseObj.Key),
-                    SubId = Convert.ToString(firebaseObj.Object.SubId),
-                    Title = Convert.ToString(firebaseObj.Object.Title),
-                    Color = Convert.ToString(firebaseObj.Object.Color),
-                    Evaluation = Convert.ToString(firebaseObj.Object.Evaluation),
-                    Management = Convert.ToString(firebaseObj.Object.Management),
-                    Medications = Convert.ToString(firebaseObj.Object.Medications),
-                    Signs = Convert.ToString(firebaseObj.Object.Signs),
-                    References = Convert.ToString(firebaseObj.Object.References),
-                 // ImageUrl = @"\images\img.png"//Verbatim string for pic
-             };
+          if (firebaseObj.Key.Equals("-MksA6PnleBIWZBq4EQ0"))
+          {
+
+                picURL = JsonSerializer.Deserialize<string[]>(Convert.ToString(firebaseObj.Object.Image));
+
+                if (picURL != null)
+                    ViewBag.picURL = picURL[1];
+
+            }
+            else
+            {
+                ViewBag.picURL = @"\images\img.png";//Verbatim string for pic
+            }
+            Subcategory obj = new Subcategory
+            {
+                Key = Convert.ToString(firebaseObj.Key),
+                SubId = Convert.ToString(firebaseObj.Object.SubId),
+                Title = Convert.ToString(firebaseObj.Object.Title),
+                Color = Convert.ToString(firebaseObj.Object.Color),
+                Evaluation = Convert.ToString(firebaseObj.Object.Evaluation),
+                Management = Convert.ToString(firebaseObj.Object.Management),
+                Medications = Convert.ToString(firebaseObj.Object.Medications),
+                Signs = Convert.ToString(firebaseObj.Object.Signs),
+                References = Convert.ToString(firebaseObj.Object.References),
+
+                //Image = firebaseObj.Object.Image
+        };
           
             @ViewBag.subCatList = 0;
 
