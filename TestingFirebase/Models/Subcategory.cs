@@ -38,8 +38,8 @@ namespace TestingFirebase.Models
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Image Link")]
         //[Required(ErrorMessage = "Image Link can't be empty!")]
+        //public Object Images { get; set; }//this holds a JSON object of type array
         public Object Image { get; set; }//this holds a JSON object of type array
-
         //for linking to Main Kategory
         [Display(Name = "Main Category ID")]
         [Required(ErrorMessage = "Main Category can't be empty!")]
@@ -49,5 +49,7 @@ namespace TestingFirebase.Models
 
         //[ForeignKey("SubId")]
         //public virtual MainCategory MainCategory { get; set; }
+
+        public string[] Pictures;
     }
 }
