@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace TestingFirebase
 {
     public class Startup
@@ -24,6 +25,10 @@ namespace TestingFirebase
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //this is for Firebase authentication
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +49,10 @@ namespace TestingFirebase
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
+
+            //this is for Firebase authentication
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -8,26 +8,35 @@ using System.Threading.Tasks;
 using TestingFirebase.Models;
 using Firebase.Database;
 using Firebase.Database.Query;
+using Firebase.Auth;//for Firebase authentication
+using Microsoft.AspNetCore.Http;//for set string on http context session line (119)
 
 namespace TestingFirebase.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        FirebaseAuthProvider _auth;
+        string _FirebaseAPIKey = "AIzaSyB9-PR4nCk8T6nNtqvnMhYFLyxr7ZLXJV8";
+
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _auth = new FirebaseAuthProvider(
+                         new FirebaseConfig(this._FirebaseAPIKey));
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         public async Task<IActionResult> Index()
         {
-    
+            //code below checks for user authentication; redirects to login if user is not logged in
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token == null)
+            {
+                return RedirectToAction("Login");
+            }
+
             //var result = await firebaseClient
             //.Child("Users/" + userId + "/Logins")
             //.PostAsync(currentUserLogin);
@@ -87,13 +96,85 @@ namespace TestingFirebase.Controllers
             }
 
             @ViewBag.subCatList = dbLogins;
-            return View(mainCategoriesList);
+
+                return View(mainCategoriesList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(LoginModel userModel)
+        {
+            //create the user
+            await _auth.CreateUserWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+            //log in the new user
+            var fbAuthLink = await _auth
+                            .SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+            string token = fbAuthLink.FirebaseToken;
+            //saving the token in a session variable
+            if (token != null)
+            {
+                HttpContext.Session.SetString("_UserToken", token);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel userModel)
+        {
+            string token = null;
+            //log in the user
+            try
+            {
+                var fbAuthLink = await _auth
+                                .SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+                token = fbAuthLink.FirebaseToken;
+            }
+            catch (Exception)
+            {
+                //ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError(string.Empty, "Wrong email or password!");
+            }
+
+            //saving the token in a session variable
+            if (token != null)
+            {
+                HttpContext.Session.SetString("_UserToken", token);
+               
+                //if (!ModelState.IsValid)
+                //{
+                //    return View();
+                //}
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                    return View();
+            }
+        }
+
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Remove("_UserToken");
+            return RedirectToAction("Login");
         }
     }
 }
