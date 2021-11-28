@@ -28,6 +28,8 @@ namespace TestingFirebase
 
             //this is for Firebase authentication
             services.AddMvc().AddSessionStateTempDataProvider();
+           //with line below the browser session can be ended
+            // services.AddSession(s => s.IdleTimeout = TimeSpan.FromMinutes(1));
             services.AddSession();
         }
 

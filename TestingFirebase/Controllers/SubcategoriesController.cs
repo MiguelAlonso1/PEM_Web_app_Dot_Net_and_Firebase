@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestingFirebase.Models;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace TestingFirebase.Controllers
 {
@@ -16,6 +16,13 @@ namespace TestingFirebase.Controllers
     {
         public async Task<IActionResult> Index(string id)
         {
+            //code below checks for user authentication; redirects to login if user is not logged in
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token == null)
+            {
+                return RedirectToAction("Login", "home");
+            }
+
             var firebaseClient = new FirebaseClient("https://med-app-519aa.firebaseio.com/");
 
             //var result = await firebaseClient
@@ -64,6 +71,13 @@ namespace TestingFirebase.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
+            //code below checks for user authentication; redirects to login if user is not logged in
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token == null)
+            {
+                return RedirectToAction("Login", "home");
+            }
+
             var firebaseClient = new FirebaseClient("https://med-app-519aa.firebaseio.com/");
 
             //var result = await firebaseClient
@@ -126,6 +140,12 @@ namespace TestingFirebase.Controllers
         //GET-Create
         public IActionResult Create()
         {
+            //code below checks for user authentication; redirects to login if user is not logged in
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token == null)
+            {
+                return RedirectToAction("Login", "home");
+            }
             var mainKatArray = new string[] { "c1", "c2", "c3", "c4", "c5" };
 
             IEnumerable<SelectListItem> mainKategoryNameValues =
@@ -172,6 +192,13 @@ namespace TestingFirebase.Controllers
         //GET-Update
         public async Task<IActionResult> Update(string id)//obj comes form the HTML form
         {
+            //code below checks for user authentication; redirects to login if user is not logged in
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token == null)
+            {
+                return RedirectToAction("Login", "home");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -299,6 +326,8 @@ namespace TestingFirebase.Controllers
             return RedirectToAction("Details", new { Id = obj.Key });//to the Index in Categories since this controller is in Categories
         }
 
+
+        #region :::GET Delete:::
         //GET-Delete
         //public async Task<IActionResult> Delete(string id)//obj comes form the HTML form
         //{
@@ -360,10 +389,9 @@ namespace TestingFirebase.Controllers
         //}
 
         //POST-Delete-always use POST for delete update and authentication for security reasons!
-
-        #region :::POST Delete:::
         #endregion
-       [HttpPost]
+
+        [HttpPost]
        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)//obj comes form the HTML form
         {

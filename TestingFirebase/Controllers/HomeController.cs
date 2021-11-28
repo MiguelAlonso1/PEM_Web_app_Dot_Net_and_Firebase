@@ -137,10 +137,14 @@ namespace TestingFirebase.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel userModel)
         {
             string token = null;
+            UserSession.token = null;
+            UserSession.userName = null;
+      
             //log in the user
             try
             {
@@ -158,7 +162,8 @@ namespace TestingFirebase.Controllers
             if (token != null)
             {
                 HttpContext.Session.SetString("_UserToken", token);
-               
+                UserSession.token =  token;
+                UserSession.userName = userModel.Email;
                 //if (!ModelState.IsValid)
                 //{
                 //    return View();
@@ -174,6 +179,8 @@ namespace TestingFirebase.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("_UserToken");
+            UserSession.token = null;
+            UserSession.userName = null;
             return RedirectToAction("Login");
         }
     }
